@@ -1,8 +1,6 @@
 # DifferentiationInterfacePython.jl
 
-An experiment using [DifferentiationInterface.jl](https://github.com/gdalle/DifferentiationInterface.jl) with Python autodiff backends like:
+The unholy union of [DifferentiationInterface.jl](https://github.com/gdalle/DifferentiationInterface.jl) and [JAX](https://github.com/jax-ml/jax).
 
-Roadmap:
-
-1. Start with [`autograd`](https://github.com/HIPS/autograd)
-2. Move up to [`jax`](https://github.com/jax-ml/jax)
+> [!DANGER]
+> This package is barely a proof of concept. Tread with caution.
