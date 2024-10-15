@@ -1,4 +1,4 @@
-module DifferentiationInterfacePython
+module DifferentiationInterfaceJAX
 
 using ADTypes
 using DifferentiationInterface

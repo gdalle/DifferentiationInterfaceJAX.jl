@@ -1,4 +1,4 @@
-name = "DifferentiationInterfacePython"
+name = "DifferentiationInterfaceJAX"
 uuid = "9a827a33-3b24-457d-bb96-013070e324df"
 authors = ["Guillaume Dalle"]
 version = "0.1.0"

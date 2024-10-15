@@ -1,8 +1,8 @@
 using DifferentiationInterface
-using DifferentiationInterfacePython
+using DifferentiationInterfaceJAX
 using Test
 
-@testset verbose = true "DifferentiationInterfacePython" begin
+@testset verbose = true "DifferentiationInterfaceJAX" begin
     @testset "Basic gradient" begin
         backend = AutoJAX()
         f(x) = sum(x)

@@ -1,5 +1,3 @@
-[deps]
-numpy = ""
 
 [pip.deps]
 jax = ""
