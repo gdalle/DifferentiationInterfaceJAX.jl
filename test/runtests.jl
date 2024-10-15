@@ -7,4 +7,7 @@ using Test
     @testset "Pushforward" begin
         include("pushforward.jl")
     end
+    @testset "Jacobian" begin
+        include("jacobian.jl")
+    end
 end

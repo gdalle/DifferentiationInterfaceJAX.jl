@@ -1,3 +1,4 @@
 .CondaPkg
 Manifest.toml
 playground.jl
+experiments/

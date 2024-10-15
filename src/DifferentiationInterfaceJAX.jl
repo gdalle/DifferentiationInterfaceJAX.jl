@@ -12,6 +12,8 @@ const jax = Ref{Py}()
 
 struct AutoJAX <: AbstractADType end
 
+ADTypes.mode(::AutoJAX) = ADTypes.ForwardOrReverseMode()
+
 ## Pushforward
 
 function DI.prepare_pushforward(f, ::AutoJAX, x, tx::NTuple)
