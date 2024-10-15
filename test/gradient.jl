@@ -15,15 +15,15 @@ x = float.(1:3)
 grad = similar(x)
 
 @testset "Without JIT" begin
-    @test gradient(f, backend, x) == [2, 4, 6]
-    @test gradient!(f, grad, backend, x) == [2, 4, 6]
-    @test value_and_gradient(f, backend, x) == (14, [2, 4, 6])
-    @test value_and_gradient!(f, grad, backend, x) == (14, [2, 4, 6])
+    @test gradient(f, backend, x) == 2x
+    @test gradient!(f, grad, backend, x) == 2x
+    @test value_and_gradient(f, backend, x) == (sum(abs2, x), 2x)
+    @test value_and_gradient!(f, grad, backend, x) == (sum(abs2, x), 2x)
 end
 
 @testset "With JIT" begin
-    @test gradient(f_jit, backend, x) == [2, 4, 6]
-    @test gradient!(f_jit, grad, backend, x) == [2, 4, 6]
-    @test value_and_gradient(f_jit, backend, x) == (14, [2, 4, 6])
-    @test value_and_gradient!(f_jit, grad, backend, x) == (14, [2, 4, 6])
+    @test gradient(f_jit, backend, x) == 2x
+    @test gradient!(f_jit, grad, backend, x) == 2x
+    @test value_and_gradient(f_jit, backend, x) == (sum(abs2, x), 2x)
+    @test value_and_gradient!(f_jit, grad, backend, x) == (sum(abs2, x), 2x)
 end

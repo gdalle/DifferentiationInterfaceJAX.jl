@@ -12,11 +12,59 @@ const jax = Ref{Py}()
 
 struct AutoJAX <: AbstractADType end
 
+## Pushforward
+
+function DI.prepare_pushforward(f, ::AutoJAX, x, tx::NTuple)
+    return DI.NoPushforwardPrep()
+end
+
+function DI.pushforward(f, ::DI.NoPushforwardPrep, ::AutoJAX, x, tx::NTuple)
+    xnp = jnp[].array(x)
+    ty = map(tx) do dx
+        dxnp = jnp[].array(dx)
+        _, dynp = jax[].jvp(f, (xnp,), (dxnp,))
+        dy = pyconvert(Array, dynp)
+    end
+    return ty
+end
+
+function DI.value_and_pushforward(f, ::DI.NoPushforwardPrep, ::AutoJAX, x, tx::NTuple)
+    xnp = jnp[].array(x)
+    ys_and_ty = map(tx) do dx
+        dxnp = jnp[].array(dx)
+        ynp, dynp = jax[].jvp(f, (xnp,), (dxnp,))
+        y = pyconvert(Array, ynp)
+        dy = pyconvert(Array, dynp)
+        y, dy
+    end
+    y = first(ys_and_ty[1])
+    ty = last.(ys_and_ty)
+    return y, ty
+end
+
+function DI.pushforward!(
+    f, ty::NTuple, prep::DI.NoPushforwardPrep, backend::AutoJAX, x, tx::NTuple
+)
+    new_ty = DI.pushforward(f, prep, backend, x, tx)
+    foreach(copyto!, ty, new_ty)
+    return ty
+end
+
+function DI.value_and_pushforward!(
+    f, ty::NTuple, prep::DI.NoPushforwardPrep, backend::AutoJAX, x, tx::NTuple
+)
+    y, new_ty = DI.value_and_pushforward(f, prep, backend, x, tx)
+    foreach(copyto!, ty, new_ty)
+    return y, ty
+end
+
+## Gradient
+
 struct AutoJAXGradientPrep{G} <: DI.GradientPrep
     grad_func::G
 end
 
-function DI.prepare_gradient(f, ::AutoJAX, x::X) where {X}
+function DI.prepare_gradient(f, ::AutoJAX, x)
     grad_func = jax[].grad(f)
     return AutoJAXGradientPrep(grad_func)
 end

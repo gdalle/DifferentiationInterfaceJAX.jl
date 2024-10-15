@@ -4,4 +4,7 @@ using Test
     @testset "Gradient" begin
         include("gradient.jl")
     end
+    @testset "Pushforward" begin
+        include("pushforward.jl")
+    end
 end
